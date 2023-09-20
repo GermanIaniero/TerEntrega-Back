@@ -2,8 +2,14 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 export default {
-    persistence: process.env.PERSISTENCE,
-    port: process.env.PORT || 8080,
-    dbUrl: 'mongodb+srv://gerlian:1234@clusterger.mgws5uk.mongodb.net/',
-    dbName: 'eccommerce'
+    PERSISTENCE: process.env.PERSISTENCE,
+    PORT: process.env.PORT || 8080,
+    DBURL: process.env.DBURL,
+    DBNAME: 'eccommerce',
+    SECRET : process.env.SECRET, 
+    GOOGLE_CLIENT_ID : process.env.GOOGLE_CLIENT_ID, 
+    GOOGLE_CLIENT_SECRET : process.env.GOOGLE_CLIENT_SECRET, 
+    CLIENTID: process.env.CLIENTID,
+    CLIENTSECRET: process.env.CLIENTSECRET,
+    CALLBACKURL: process.env.CALLBACKURL
 }

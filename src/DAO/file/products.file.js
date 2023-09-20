@@ -1,4 +1,4 @@
-import ProductManager from "./product.manager.js"
+import FileManager from "./file.manager.js"
 
 export default class Product extends FileManager {
     constructor(filename = './db.product.json') {
@@ -11,5 +11,9 @@ export default class Product extends FileManager {
     updateProduct = async (id, product) => {
         product.id = id
         return await this.update(product)
+    }
+    deleteProduct = async (id, product) => {
+        product.id = id
+        return await this.delete(product)
     }
 }

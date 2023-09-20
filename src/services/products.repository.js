@@ -8,14 +8,25 @@ export default class ProductRepository {
 
     getProducts = async () => { return await this.dao.getProducts() }
     getProductById = async(pid) => { return await this.dao.getProductById(pid) }
-    createProduct = async(product) => { 
-        const productToInsert = new ProductDTO(store)
+    createProducts = async(product) => { 
+        const productToInsert = new ProductDTO(product)
         return await this.dao.createProduct(productToInsert)
     }
-    resolveProduct = async (pid, resolve) => {
+    updateProducts = async (pid, productUpdate) => {
         const product = this.getProductById(pid)
-        product.status = resolve
+        if (!product) {
+            throw new Error("no existe el producto");
+          }
         
-        return await this.dao.updateProduct(pid, product)
+        return await this.dao.updateProduct(pid, productUpdate)
+    }
+    deleteProducts = async (pid) => {
+        const product = this.getProductById(pid)
+        if (!product) {
+            throw new Error("no existe el producto");
+          }
+        
+        return await this.dao.deleteProducts(pid, product)
+
     }
 }

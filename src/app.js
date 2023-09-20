@@ -17,4 +17,4 @@ app.use('/api/orders', ordersRouter)
 app.use('/api/carts', cartsRouter)
 app.use('/api/products', productsRouter)
 
-app.listen(config.port, ()  => console.log('Listening...'))
+app.listen(config.PORT, ()  => console.log('Listening...'))

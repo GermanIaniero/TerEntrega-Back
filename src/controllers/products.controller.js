@@ -12,9 +12,16 @@ export const getProductByID = async (req, res) => {
     res.send({ status: 'success', payload: result })
 }
 
-export const saveProducts = async (req, res) => {
+export const createProducts = async (req, res) => {
     const product = req.body
 
     const result = await productService.saveProduct(product)
     res.send({ status: 'success', payload: result })
+}
+
+export const updateProducts = async (req, res) => {
+    
+}
+export const deleteProducts = async (req, res) => {
+    
 }
