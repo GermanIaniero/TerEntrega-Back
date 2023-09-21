@@ -7,7 +7,7 @@ export default class Cart extends FileManager {
 
     getCarts = async (query = {}) => { return await this.get(query) }
     getCartById = async (id) => { return await this.getById(id) }
-    saveCart = async (cart) => { return await this.add(cart) }
+    createCart = async (cart) => { return await this.add(cart) }
     updateCart = async (id, cart) => {
         cart.id = id
         return await this.update(cart)

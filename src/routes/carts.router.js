@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { getCarts, createCart, resolveCart, getCartByID } from "../controllers/carts.controller.js";
+import { getCarts, createCarts, getCartByID, updateCarts, deleteCarts  } from "../controllers/carts.controller.js";
 
 const router = Router()
 
 router.get('/', getCarts)
-router.get('/:oid', getCartByID)
-router.post('/', createCart)
-router.post('/:oid', resolveCart)
+router.get('/:cid', getCartByID)
+router.post('/', createCarts)
+router.put('/:cid', updateCarts)
+router.delete('/:cid', deleteCarts)
 
 export default router

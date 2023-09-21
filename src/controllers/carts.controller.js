@@ -12,9 +12,15 @@ export const getCartByID = async (req, res) => {
     res.send({ status: 'success', payload: result })
 }
 
-export const saveCarts = async (req, res) => {
+export const createCarts = async (req, res) => {
     const cart = req.body
 
     const result = await cartService.saveCart(cart)
     res.send({ status: 'success', payload: result })
+}
+export const updateCarts = async (req, res) => {
+    
+}
+export const deleteCarts = async (req, res) => {
+    
 }

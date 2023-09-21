@@ -7,15 +7,17 @@ export let Order
 export let Product
 export let Cart
 
-console.log(`Persistence with ${config.persistence}`)
+console.log(`Persistence with ${config.PERSISTENCE}`)
 
-switch (config.persistence) {
+switch (config.PERSISTENCE) {
     case 'MONGO':
-
-        mongoose.connect(config.dbUrl, {
+        console.log(config.DBURL)
+        console.log(config.DBNAME)
+        
+        mongoose.connect(config.DBURL, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            dbName: config.dbName
+            DBNAME: config.DBNAME
         })
 
         const { default: UserMongo } = await import('./mongo/users.mongo.js')

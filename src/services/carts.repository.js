@@ -8,14 +8,26 @@ export default class CartRepository {
 
     getCarts = async () => { return await this.dao.getCarts() }
     getCartById = async(cid) => { return await this.dao.getCartById(cid) }
-    createCart = async(cart) => { 
+    createCarts = async(cart) => { 
         const cartToInsert = new CartDTO(cart)
         return await this.dao.createCart(cartToInsert)
     }
-    resolveCart = async (cid, resolve) => {
-        const cart = this.getCartById(pid)
-        cart.status = resolve
+    updateCarts = async (cid, cartUpdate) => {
+        const cart = this.getCartById(cid)
+        if (!cart) {
+            throw new Error("no existe el carrito");
+          }
         
-        return await this.dao.updateCart(cid, order)
+        
+        return await this.dao.updateCart(cid, productUpdate)
+    }
+    deleteCarts = async (cid) => {
+        const cart = this.getCartById(cid)
+        if (!cart) {
+            throw new Error("no existe el carrito");
+          }
+        
+        return await this.dao.deleteCarts(cid, cart)
+
     }
 }

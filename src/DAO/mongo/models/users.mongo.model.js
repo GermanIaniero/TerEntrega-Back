@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const UsersModel = mongoose.model('users', new mongoose.Schema({
+const UserModel = mongoose.model('users', new mongoose.Schema({
     name: String,
     email: String,
     role: String,
@@ -12,4 +12,4 @@ const UsersModel = mongoose.model('users', new mongoose.Schema({
     ]
 }))
 
-export default UsersModel
+export default UserModel
