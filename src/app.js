@@ -15,8 +15,8 @@ const transport = nodemailer.createTransport({
     service: 'gmail',
     port: 587,
     auth: {
-        user: 'r2coderhouse@gmail.com',
-        pass: 'rjyneosjatqblvku'
+        user: 'gamcordoba@gmail.com',
+        pass: 'dzoepvskzrwqgmuq'
     }
 })
 
@@ -34,8 +34,8 @@ app.use('/api/products', productsRouter)
 
 app.get('/mail', async(req, res) => {
     const result = await transport.sendMail({
-        from: 'r2coderhouse@gmail.com',
-        to: ['r2coderhouse@gmail.com', 'valentinabalo9@gmail.com'],
+        from: 'gamcordoba@gmail.com',
+        to: ['gamcordoba@gmail.com'],
         subject: 'Felicitaciones por tu nuevo trabajo !!',
         html: `
             <div>
