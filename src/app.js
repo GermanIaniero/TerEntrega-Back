@@ -20,7 +20,7 @@ const transport = nodemailer.createTransport({
     }
 })
 
-const client = twilio(env.TWILIO_ACCOUNT_SID, env.TWILIO_AUTHO_TOKEN)
+const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTHO_TOKEN)
 
 
 app.use(express.json())
