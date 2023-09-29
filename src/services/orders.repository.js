@@ -8,8 +8,8 @@ export default class OrderRepository {
 
     getOrders = async () => { return await this.dao.getOrders() }
     getOrderById = async(oid) => { return await this.dao.getOrderById(oid) }
-    createOrder = async(store) => { 
-        const orderToInsert = new OrderDTO(store)
+    createOrder = async(order) => { 
+        const orderToInsert = new OrderDTO(order)
         return await this.dao.createOrder(orderToInsert)
     }
     resolveOrder = async (oid, resolve) => {
