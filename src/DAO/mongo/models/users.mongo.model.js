@@ -1,15 +1,23 @@
 import mongoose from "mongoose";
 
 const UserModel = mongoose.model('users', new mongoose.Schema({
-    name: String,
+    first_name: String,
+    last_name: String,
     email: String,
+    age: Number,
     role: String,
+    password: String,
     orders: [
         {
             type: mongoose.SchemaTypes.ObjectId,
             ref: 'orders'
         }
-    ]
+    ],
+    cartid: 
+        {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: 'carts'
+        },
 }))
 
 export default UserModel

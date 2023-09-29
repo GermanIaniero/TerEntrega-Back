@@ -15,7 +15,7 @@ export const getCartByID = async (req, res) => {
 export const createCarts = async (req, res) => {
     const cart = req.body
 
-    const result = await cartService.saveCart(cart)
+    const result = await cartService.createCarts(cart)
     res.send({ status: 'success', payload: result })
 }
 export const updateCarts = async (req, res) => {

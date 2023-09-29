@@ -7,5 +7,5 @@ export default class User extends FileManager {
     }
     getUsers = async () => { return await this.get() }
     getUserById = async(id) => { return await this.getById(id) }
-    saveUser = async(user) => { return await this.add(user)}
+    createUsers = async(user) => { return await this.add(user)}
 }

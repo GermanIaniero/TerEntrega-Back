@@ -15,13 +15,20 @@ export const getProductByID = async (req, res) => {
 export const createProducts = async (req, res) => {
     const product = req.body
 
-    const result = await productService.saveProduct(product)
+    const result = await productService.createProducts(product)
     res.send({ status: 'success', payload: result })
 }
 
 export const updateProducts = async (req, res) => {
-    
+    const { pid } = req.params
+    const product = req.body
+    const result = await productService.updateProducts(pid, product)
+
+    res.send({ status: 'success', payload: result })
 }
 export const deleteProducts = async (req, res) => {
-    
+    const { pid } = req.params
+    const result = await productService.deleteProducts(pid)
+
+    res.send({ status: 'success', payload: result })
 }

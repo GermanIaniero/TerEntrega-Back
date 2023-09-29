@@ -13,7 +13,7 @@ export default class StoreRepository {
     getStoreById = async(sid) => { return await this.dao.getStoreById(sid) }
     addStore = async(store) => { 
         const storeToInsert = new StoreDTO(store)
-        return await this.dao.saveStore(storeToInsert)
+        return await this.dao.addStore(storeToInsert)
     }
     addProduct = async (sid, product) => {
         const store = await this.getStoreById(sid)

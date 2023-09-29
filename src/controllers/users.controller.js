@@ -12,9 +12,9 @@ export const getUserByID = async (req, res) => {
     res.send({ status: 'success', payload: result })
 }
 
-export const saveUsers = async (req, res) => {
+export const createUsers = async (req, res) => {
     const user = req.body
 
-    const result = await userService.saveUser(user)
+    const result = await userService.createUsers(user)
     res.send({ status: 'success', payload: result })
 }

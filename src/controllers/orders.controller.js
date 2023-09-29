@@ -12,10 +12,10 @@ export const getOrderByID = async (req, res) => {
     res.send({ status: 'success', payload: result })
 }
 
-export const createOrder = async (req, res) => {
+export const createOrders = async (req, res) => {
     const order = req.body
 
-    const result = await orderService.createOrder(order)
+    const result = await orderService.createOrders(order)
     res.send({ status: 'success', payload: result })
 }
 
