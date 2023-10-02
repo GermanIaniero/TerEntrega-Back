@@ -10,7 +10,7 @@ export default class ProductsDTO {
         this.stock = product?.stock ?? 0
         this.status = product?.status ?? 'pending'
         this.category = product?.category ?? 0
-  //if (!user?.email) {         throw new Error("El email es requerido.");       }
+  
         
     }
 }

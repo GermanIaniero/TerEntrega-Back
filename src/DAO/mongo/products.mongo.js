@@ -7,7 +7,7 @@ export default class Product {
     updateProduct = async (id, product) => {
         return await ProductModel.updateOne({ _id: id }, { $set: product })
     }
-    deleteProduct = async (id) => {
+    deleteProducts = async (id) => {
         return await ProductModel.deleteOne({ _id: id })
     }
 }

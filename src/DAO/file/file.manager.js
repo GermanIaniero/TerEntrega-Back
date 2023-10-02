@@ -30,17 +30,28 @@ class FileManager {
         return fs.promises.writeFile(this.filename, JSON.stringify(list))
     }
 
-    update = async (data) => {
+   /* update = async (data) => {
         const list = await this.get()
         const idx = list.findIndex(a => a.id == data.id)
         list[idx] = data
         
         return fs.promises.writeFile(this.filename, JSON.stringify(list))
-    }
-    delete = async (data) => {
+    }  */
+
+    update = async (data) => {
         const list = await this.get()
         const idx = list.findIndex(a => a.id == data.id)
-        list[idx] = data
+        Object.assign(list[idx], data) 
+        return fs.promises.writeFile(this.filename, JSON.stringify(list))
+    }
+
+
+
+
+    delete = async (data) => {
+        const list = await this.get()
+        const idx = list.findIndex (a => a.id == data.id) 
+        list.splice(idx, 1)
         
         return fs.promises.writeFile(this.filename, JSON.stringify(list))
     }
