@@ -23,9 +23,19 @@ export const updateCarts = async (req, res) => {
         const cid = req.params.cid 
         const quantity = parseInt(req.body.quantity)
         const carts2 = {pid, quantity}
+        console.log("id2", carts2, "product2", pid, "cid2", cid)
         const result = await cartService.updateCarts(cid, carts2)
         res.send({ status: 'success', payload: result })
     }
+
+export const deleteOneCarts = async (req, res) => {
+        const pid = req.params.pid
+        const cid = req.params.cid 
+        const quantity = parseInt(req.body.quantity)
+        const carts2 = {pid, quantity}
+        const result = await cartService.deleteOneCarts(cid, carts2)
+        res.send({ status: 'success', payload: result })
+ }    
 export const deleteCarts = async (req, res) => {
     const pid = req.params.pid
     const cid = req.params.cid 

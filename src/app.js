@@ -6,6 +6,7 @@ import cartsRouter from './routes/carts.router.js'
 import productsRouter from './routes/products.router.js'
 import nodemailer from 'nodemailer'
 import twilio from 'twilio'
+import cors from 'cors'
 
 
 const app = express()
@@ -21,7 +22,7 @@ const transport = nodemailer.createTransport({
 
 const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTHO_TOKEN)
 
-
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
