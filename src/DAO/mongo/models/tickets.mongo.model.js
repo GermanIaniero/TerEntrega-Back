@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 
 const TicketModel = mongoose.model ('tickets', new mongoose.Schema({
-    id: Number,
-    code:Number,
-    purchase_datetime:TimeRanges,
-    amount:Number,
+    code: String,
+    purchase_datetime: String,
+    amount:Number,  //investigatar datastamp
     purchaser:String,
+    //{ timestamps: true }
 })
 
 )

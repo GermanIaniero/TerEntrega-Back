@@ -42,6 +42,7 @@ export default class Cart {
             { _id: cartId},
             { $pull: { products: { pid : pid } } },
           );
+          console.log(result)
           return result
     }
  
