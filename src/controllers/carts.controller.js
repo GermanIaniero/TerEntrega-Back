@@ -28,6 +28,16 @@ export const updateCarts = async (req, res) => {
         res.send({ status: 'success', payload: result })
     }
 
+    export const purchaseCarts = async (req, res) => {
+       // const pid = req.params.pid
+        const cid = req.params.cid 
+       // const quantity = parseInt(req.body.quantity)
+       // const carts2 = {pid, quantity}
+       // console.log("id2", carts2, "product2", pid, "cid2", cid)
+        const result = await cartService.purchaseCarts(cid)
+        res.send({ status: 'success', payload: result })
+    }    
+
 export const deleteOneCarts = async (req, res) => {
         const pid = req.params.pid
         const cid = req.params.cid 

@@ -35,6 +35,50 @@ export default class Cart {
     }
 
 
+    purcharseCarts = async (cart) => {
+        /* console.log("id", id, "product", product)
+         return await CartModel.updateOne({_id:id},product);*/
+   let totalamount=0;
+   let email;
+
+    for(let i=0; i<cart.products.length; i++){
+
+        const resultDelProducto = await ProductModel.findOne({_id: cart.products[i].pid });
+        //comprar más de lo que hay
+        if (resultDelProducto.stock > cart.products[i].quantity ) {
+            resultDelProducto.stock -= cart.products[i].quantity
+            await resultDelProducto.save();
+        }
+          
+        totalamount += resultDelProducto.price * cart.products[i].quantity 
+
+        await this.deleteOneCarts(cart._id, resultadoEncontrado._id)
+
+    }
+    
+   
+     /* hacer push del id y no del producto */
+     if (!resultDelProducto || !resultDelCarrito) return ("No existe producto o carrito");
+     
+     
+     const resultadoEncontrado = resultDelCarrito.products.find((producto) => producto.pid.toString() === product.pid)
+
+    
+     if (resultadoEncontrado !== undefined) {
+         console.log("entre if")
+         resultadoEncontrado.quantity += product.quantity
+         await resultDelCarrito.save()
+     }else{
+         console.log("entre else")
+         resultDelCarrito.products.push(product)
+         await resultDelCarrito.save()
+     }
+     //resultDelCarrito.products.push({pid,quantity} )
+     
+     return(resultDelCarrito)
+ 
+     }
+
     deleteOneCarts = async (cartId,productId)=>{
         let pid = await ProductModel.find({_id: productId.pid})._id
 

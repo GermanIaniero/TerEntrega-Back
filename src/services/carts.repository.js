@@ -23,6 +23,15 @@ export default class CartRepository {
           
         return await this.dao.updateCarts(cid, cartUpdate)
     }
+    purchaseCarts = async (cid) => {
+        
+       
+        const cart = await this.getCartById(cid)
+        if (!cart) {
+            throw new Error("no existe el carrito");
+          }
+        return await this.dao.purchaseCarts(cart)
+    }
     deleteOneCarts = async (cid, cartUpdate) => {
         
        
