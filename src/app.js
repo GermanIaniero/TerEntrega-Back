@@ -7,7 +7,12 @@ import productsRouter from './routes/products.router.js'
 import nodemailer from 'nodemailer'
 import twilio from 'twilio'
 import cors from 'cors'
-
+import handlebars from 'express-handlebars'
+import __dirname from './utils.js'
+//import session from 'express-session'
+//import sessionRouter from './routes/session.router.js'
+import passport from 'passport'
+//import initializePassport from './config/passport.config.js'
 
 const app = express()
 
@@ -25,6 +30,17 @@ const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTHO_T
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
+
+// Configurar los motores de plantilla
+app.engine('handlebars', handlebars.engine())
+app.set('views', __dirname + '/views')
+app.set('view engine', 'handlebars')
+
+
+// Passport
+/*initializePassport()
+app.use(passport.initialize())
+app.use(passport.session()) */
 
 app.use('/api/users', usersRouter)
 app.use('/api/orders', ordersRouter)
