@@ -8,11 +8,14 @@ import nodemailer from 'nodemailer'
 import twilio from 'twilio'
 import cors from 'cors'
 import handlebars from 'express-handlebars'
-import __dirname from './utils.js'
+import __dirname from './utils/utils.js'
 //import session from 'express-session'
 //import sessionRouter from './routes/session.router.js'
 import passport from 'passport'
 //import initializePassport from './config/passport.config.js'
+
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express';
 
 const app = express()
 
@@ -36,6 +39,20 @@ app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname + '/views')
 app.set('view engine', 'handlebars')
 
+
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.1',
+        info: {
+            title: 'Documentacion de Productos y Carritos',
+            description: 'Este proyecto es de productos(products) y carritos(carts) - German Ianiero'
+        }
+    },
+    apis: [`${__dirname}/../docs/**/*.yaml`]
+}
+
+const specs = swaggerJSDoc(swaggerOptions)
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
 // Passport
 /*initializePassport()
