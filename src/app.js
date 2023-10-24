@@ -12,7 +12,7 @@ import __dirname from './utils/utils.js'
 //import session from 'express-session'
 //import sessionRouter from './routes/session.router.js'
 import passport from 'passport'
-//import initializePassport from './config/passport.config.js'
+import initializePassport from './config/passport.config.js'
 
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
@@ -55,9 +55,8 @@ const specs = swaggerJSDoc(swaggerOptions)
 app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
 // Passport
-/*initializePassport()
+initializePassport()
 app.use(passport.initialize())
-app.use(passport.session()) */
 
 app.use('/api/users', usersRouter)
 app.use('/api/orders', ordersRouter)

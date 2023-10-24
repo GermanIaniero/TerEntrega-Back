@@ -68,8 +68,15 @@ export default class Cart {
       }else{
         
         cart.products[i].quantity = cart.products[i].quantity - resultDelProducto.stock;
-        totalamount += resultDelProducto.price * resultDelProducto.quantity;
+        totalamount += resultDelProducto.price * resultDelProducto.stock;
         console.log("cart.mongo", totalamount)
+
+        console.log("cart.products[i].quantity", cart.products[i].quantity )
+        console.log("resultDelProducto.stock (deberia ser = 0)", resultDelProducto.stock )
+        console.log("totalamount (deberia ser = 0)", totalamount)
+        console.log("resultDelProducto.price", resultDelProducto.price)
+        console.log("resultDelProducto.quantity", resultDelProducto.quantity) 
+
         resultDelProducto.stock = 0
         await resultDelProducto.save();
         await cart.save();
