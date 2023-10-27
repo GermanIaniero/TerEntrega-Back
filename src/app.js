@@ -14,8 +14,8 @@ import __dirname from './utils/utils.js'
 import passport from 'passport'
 import initializePassport from './config/passport.config.js'
 
-import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUiExpress from 'swagger-ui-express';
+/*import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express'; */
 
 const app = express()
 
@@ -30,29 +30,29 @@ const transport = nodemailer.createTransport({
 
 const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTHO_TOKEN)
 
-app.use(cors())
+//app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 // Configurar los motores de plantilla
-app.engine('handlebars', handlebars.engine())
+/*app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname + '/views')
-app.set('view engine', 'handlebars')
+app.set('view engine', 'handlebars') */
 
 
-const swaggerOptions = {
-    definition: {
-        openapi: '3.0.1',
-        info: {
-            title: 'Documentacion de Productos y Carritos',
-            description: 'Este proyecto es de productos(products) y carritos(carts) - German Ianiero'
-        }
-    },
-    apis: [`${__dirname}/../docs/**/*.yaml`]
-}
+//const swaggerOptions = {
+//    definition: {
+//        openapi: '3.0.1',
+//        info: {
+//            title: 'Documentacion de Productos y Carritos',
+//            description: 'Este proyecto es de productos(products) y carritos(carts) - German Ianiero'
+//        }
+//    },
+//    apis: [`${__dirname}/../docs/**/*.yaml`]
+//}
 
-const specs = swaggerJSDoc(swaggerOptions)
-app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
+/*const specs = swaggerJSDoc(swaggerOptions)
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))*/
 
 // Passport
 initializePassport()
@@ -95,7 +95,7 @@ app.get('/sms', async(req, res) => {
         to: '+😅'
     })
 
-    console.log(result)
+    //console.log(result)
     res.send('SMS sent!')
 })
 

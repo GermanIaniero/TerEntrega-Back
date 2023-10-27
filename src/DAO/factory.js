@@ -6,13 +6,10 @@ export let Order
 export let Product
 export let Cart
 
-console.log(`Persistence with ${config.PERSISTENCE}`)
+//console.log(`Persistence with ${config.PERSISTENCE}`)
 
 switch (config.PERSISTENCE) {
     case 'MONGO':
-        console.log(config.DBURL)
-        console.log(config.DBNAME)
-        
         mongoose.connect(config.DBURL, {
             useNewUrlParser: true,
             useUnifiedTopology: true,

@@ -16,6 +16,7 @@ export const createUsers = async (req, res) => {
     const user = req.body
 
     const result = await userService.createUsers(user)
+    console.log ("controller user", req.result)
     res.send({ status: 'success', payload: result })
 }
 

@@ -1,9 +1,9 @@
 import passport from "passport";
 import local from 'passport-local'
-import UserModel from "../DAO/mongo/users.mongo.js"
+import UserModel from "../DAO/mongo/models/users.mongo.model.js"
 import GitHubStrategy from 'passport-github2'
 import { createHash, isValidPassword } from "../utils/utils.js";
-
+import { userService, cartService} from "../services/index.js"
 
 /**
  * 
@@ -26,20 +26,23 @@ const initializePassport = () => {
             usernameField: 'email'
         },
         async (req, username, password, done) => {
-            const { name, email } = req.body
+            const {first_name, last_name, age, email} = req.body
             try {
-                const user = await UserModel.findOne({ email: username })
+                const user = await userService.getUserByEmail(username)
                 if (user) {
-                    console.log('User already exits')
+                    //console.log('User already exits')
                     return done(null, false)
                 }
-
+                const cart = await cartService.createCarts()
                 const newUser = {
-                    name,
+                    first_name,
+                    last_name,
+                    age,
                     email,
-                    password: createHash(password)
+                    password: createHash(password),
+                    cartid : cart._id
                 }
-                const result = await UserModel.create(newUser)
+                const result = await userService.createUsers(newUser)
                 return done(null, result)
             } catch (e) {
                 return done('Error to register ' + error)
@@ -95,7 +98,7 @@ const initializePassportGit = () => {
             try  {
                 const user = await UserModel.findOne({ email: profile._json.email  })
                 if(user) {
-                    console.log('User already exits ' + email)
+                    //console.log('User already exits ' + email)
                     return done(null, user)
                 }
 
@@ -123,7 +126,7 @@ const initializePassportGit = () => {
             try {
                 const user = await UserModel.findOne({ email: username })
                 if (user) {
-                    console.log('User already exits')
+                    //console.log('User already exits')
                     return done(null, false)
                 }
 

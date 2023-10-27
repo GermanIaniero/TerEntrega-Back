@@ -13,8 +13,7 @@ export default class Cart {
     return await CartModel.create(cart);
   };
   updateCarts = async (cid, product) => {
-    /* console.log("id", id, "product", product)
-        return await CartModel.updateOne({_id:id},product);*/
+  
 
     let resultDelCarrito = await CartModel.findOne({ _id: cid });
     const resultDelProducto = await ProductModel.findOne({ _id: product.pid });
@@ -25,20 +24,13 @@ export default class Cart {
     const resultadoEncontrado = resultDelCarrito.products.find(
       (producto) => producto.pid.toString() === product.pid
     );
-    console.log(
-      "resulta",
-      resultadoEncontrado,
-      "result carrito",
-      resultDelCarrito,
-      "ressul del pro",
-      resultDelProducto
-    );
+    
     if (resultadoEncontrado !== undefined) {
-      console.log("entre if");
+    
       resultadoEncontrado.quantity += product.quantity;
       await resultDelCarrito.save();
     } else {
-      console.log("entre else");
+      
       resultDelCarrito.products.push(product);
       await resultDelCarrito.save();
     }
@@ -48,8 +40,7 @@ export default class Cart {
   };
 
   purchaseCarts = async (cart) => {
-    /* console.log("id", id, "product", product)
-         return await CartModel.updateOne({_id:id},product);*/
+   
     let totalamount = 0;
     let email;
 
@@ -69,14 +60,7 @@ export default class Cart {
         
         cart.products[i].quantity = cart.products[i].quantity - resultDelProducto.stock;
         totalamount += resultDelProducto.price * resultDelProducto.stock;
-        console.log("cart.mongo", totalamount)
-
-        console.log("cart.products[i].quantity", cart.products[i].quantity )
-        console.log("resultDelProducto.stock (deberia ser = 0)", resultDelProducto.stock )
-        console.log("totalamount (deberia ser = 0)", totalamount)
-        console.log("resultDelProducto.price", resultDelProducto.price)
-        console.log("resultDelProducto.quantity", resultDelProducto.quantity) 
-
+        
         resultDelProducto.stock = 0
         await resultDelProducto.save();
         await cart.save();
