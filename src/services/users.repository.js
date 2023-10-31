@@ -11,8 +11,6 @@ export default class UserRepository {
     getUserByEmail = async(email) => { return await this.dao.getUserByEmail(email) }
     createUsers = async(user) => { 
         const userToInsert = new UserDTO(user)
-        console.log(user)
-        console.log(userToInsert)
         return await this.dao.createUsers(userToInsert)
         
     }

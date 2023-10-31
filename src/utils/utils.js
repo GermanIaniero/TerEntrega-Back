@@ -5,6 +5,13 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 import bcrypt from 'bcrypt'
 
+
+
+import jwt from 'jsonwebtoken'
+
+
+
+
 export const generateUser = () => {
 
     const numOfProducts = faker.number.int({ max: 10})
@@ -45,5 +52,12 @@ export const isValidPassword = (user, password) => {
     return bcrypt.compareSync(password, user.password) // true o false
 }
 
+export const generateToken = user => {
+    return jwt.sign( {user}, 'secretForJWT', {expiresIn: '24h'})
+}
+
+export const extractCookie = req => {
+    return (req && req.cookies) ? req.cookies['coderCookie'] : null
+}
 
 export default __dirname

@@ -82,7 +82,7 @@ export default class Cart {
       { _id: cartId },
       { $pull: { products: { pid: productId.pid } } }
     );
-    console.log(result);
+   // console.log(result);
     return result;
   };
 

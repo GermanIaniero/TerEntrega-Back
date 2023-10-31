@@ -1,4 +1,5 @@
 import { userService } from "../services/index.js"
+import { generateToken} from "../utils/utils.js"
 
 export const getUsers = async (req, res) => {
     const result = await userService.getUsers()
@@ -13,25 +14,25 @@ export const getUserByID = async (req, res) => {
 }
 
 export const createUsers = async (req, res) => {
-    const user = req.body
+    
 
     const result = await userService.createUsers(user)
-    console.log ("controller user", req.result)
+    
     res.send({ status: 'success', payload: result })
+    
 }
 
 export const login = async (req, res) => {
-    const result = await userService.login()
-    res.send({ status: 'success', payload: result })
+    const user = req.user
+    
+    
+    
+    
+    //res.send({ status: 'success', payload: result })
 
 
-    //ogin: el user.mongo.js, login  genere el token. Luego se setea la cookie en el controller
-
-    const { email, password } = req.body
-
-    //const user = usersDB.find(u => u.email === email && u.password === password)
-    if(!user) return res.status(401).send({status: "error", error: 'Invalid pass'})
-
+    
+    
     const access_token = generateToken(user)
     
     res.cookie('coderCookie', access_token, {
@@ -47,6 +48,7 @@ export const logout = async (req, res) => {
 }
 
 export const register = async (req, res) => {
-    const result = await userService.register()
-    res.send({ status: 'success', payload: result })
+    //const result = await userService.createUsers()
+    const user = req.body
+    res.send({ status: 'success', payload:  user})
 }

@@ -6,8 +6,7 @@ const router = Router()
 
 router.get('/', getUsers)
 router.get('/:uid', getUserByID)
-router.post('/', createUsers)
-router.post('/login', login)
+router.post('/login', passport.authenticate("login"), login)
 router.post('/logout', logout)
-router.post('/register', passport.authenticate("register", {failureRedirect: "/register"}), register)
+router.post('/register', passport.authenticate("register"), register)
 export default router

@@ -20,7 +20,7 @@ describe('TEsting Eccomerces', () => {
             expect(_body.payload).to.have.property('_id')
         })
 
-        it('En endpoint POST /api/carts debera registrar un carrito', async() => {
+        it('En endpoint POST /api/carts debera registrar un carrito cuando sea vacio', async() => {
             const cartMock = {}
             
             const response = await requester.post('/api/carts').send(cartMock)

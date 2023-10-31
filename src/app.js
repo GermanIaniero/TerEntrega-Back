@@ -9,7 +9,7 @@ import twilio from 'twilio'
 import cors from 'cors'
 import handlebars from 'express-handlebars'
 import __dirname from './utils/utils.js'
-//import session from 'express-session'
+import session from 'express-session'
 //import sessionRouter from './routes/session.router.js'
 import passport from 'passport'
 import initializePassport from './config/passport.config.js'
@@ -58,6 +58,16 @@ app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))*/
 initializePassport()
 app.use(passport.initialize())
 
+app.use(
+    session({
+      secret: "secret",
+      resave: true,
+      saveUninitialized: true,
+    })
+  );
+  
+  app.use(passport.session());
+
 app.use('/api/users', usersRouter)
 app.use('/api/orders', ordersRouter)
 app.use('/api/carts', cartsRouter)
@@ -84,7 +94,7 @@ app.get('/mail', async(req, res) => {
         ]
     })
 
-    console.log(result)
+    
     res.send('Email sent')
 })
 
