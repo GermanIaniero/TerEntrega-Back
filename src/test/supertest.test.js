@@ -45,4 +45,50 @@ describe('Registro, Login and Current', () => {
        const {_body} = await requester.post('/api/users/register').send(mockUser)     
        expect (_body.payload).to.be.ok 
     })
+
+    it ('Debe loguear un user y devolver una cookie', async() => {
+
+        const result = await requester.post('/api/users/login').send({
+            email : mockUser.email,
+            password : mockUser.password  
+        })    
+       
+        const cookieResult = result.headers['set-cookie'][0]
+
+        cookie = {
+            name: cookieResult.split('=')[0],
+            value: cookieResult.split('=')[1].split(';')[0]
+
+        }
+
+        expect(cookie.name).to.be.ok.and.equal('coderCookie')
+        expect(cookie.value).to.be.ok
+        console.log({cookie})
+     })
+
+
+     it ('Enviar la cookie para ver el contenido del user', async() => {
+        const { _body } = await requester.get('/api/users/login').set('´Cookie', [`${cookie.name}=${cookie.value}`])
+        expect (_body.payload.email).to.be.eq(mockUser.email)
+     })
+
 })
+
+describe('Test upload file', () => {
+    it('Debe subir un archivo', async() => {
+        const productMock = {
+            title: 'Product',
+            description: 'Descripcion',
+
+        }   
+        const result= await requester.post('/api/products/withimage')
+            .field ('title', productMock.title)
+            .field ('description', productMock.description)
+            .attach('image', './src/test/juan.jpg')
+        
+        expect(result.status).to.be.eq(200)
+        expect(result._body.payload).to.have.property('_id') 
+        expect(result._body.payload.image).to.be.ok   
+
+        })
+})        
