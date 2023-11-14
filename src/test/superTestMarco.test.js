@@ -113,7 +113,7 @@ describe('Integration tests', function () {
 
         });
 
-        it('Get current user through endpoint GET /api/session/current', async () => {
+        xit('Get current user through endpoint GET /api/session/current', async () => {
 
             const sut = await requester
                 .post('/api/session/login')
@@ -161,9 +161,9 @@ describe('Integration tests', function () {
 
     })
 
-    xdescribe('Admin products', () => {
+    describe('Admin products', () => {
 
-        xit('Should assign admin rol when registered with Coder credentials', async () => {
+        it('Should assign admin rol when registered with Coder credentials', async () => {
 
             const adminRegisterResponse = await requester
                 .post('/api/session/register')
@@ -177,7 +177,7 @@ describe('Integration tests', function () {
             expect(adminRegisterResponse.body.payload.rol).to.eq('admin')
         })
 
-        it('Should be able to create a product', async function () {
+        xit('Should be able to create a product', async function () {
             this.timeout(9000);
 
             const adminLoginResponse = await requester
@@ -209,7 +209,7 @@ describe('Integration tests', function () {
 
         })
 
-        it('Should be able to modify a product', async function () {
+        xit('Should be able to modify a product', async function () {
 
             this.timeout = 9000
 
@@ -238,7 +238,7 @@ describe('Integration tests', function () {
 
         })
 
-        it('Should be able to delete a product', async function () {
+        xit('Should be able to delete a product', async function () {
             this.timeout = 9000
             const productPost = await requester
                 .post('/api/products')

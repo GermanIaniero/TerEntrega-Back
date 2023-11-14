@@ -8,7 +8,7 @@ export default class ProductsDTO {
         this.thumbnail = product?.thumbnail ?? [ ]    
         this.code = product?.code ?? 0
         this.stock = product?.stock ?? 0
-        this.status = product?.status ?? 'pending'
+        this.status = product?.status ?? true
         this.category = product?.category ?? 0
   
         

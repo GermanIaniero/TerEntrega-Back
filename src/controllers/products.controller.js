@@ -13,10 +13,15 @@ export const getProductByID = async (req, res) => {
 }
 
 export const createProducts = async (req, res) => {
-    const product = req.body
+    try { 
+    
+        const product = req.body
 
     const result = await productService.createProducts(product)
     res.send({ status: 'success', payload: result })
+}catch (error) {
+    res.send({ status: 'error', payload: error.message })
+}
 }
 
 export const updateProducts = async (req, res) => {
