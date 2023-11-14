@@ -1,9 +1,13 @@
-import passport from "passport";
+/*import passport from "passport";
 import local from 'passport-local'
 import UserModel from "../DAO/mongo/models/users.mongo.model.js"
 import GitHubStrategy from 'passport-github2'
-import { createHash, isValidPassword } from "../utils/utils.js";
+import { createHash, isValidPassword, extractCookie } from "../utils/utils.js";
 import { userService, cartService} from "../services/index.js"
+import passportJWT from "passport-jwt";
+const JWTStrategy = passportJWT.Strategy
+const JWTextract = passportJWT.ExtractJwt
+
 
 /**
  * 
@@ -14,7 +18,7 @@ import { userService, cartService} from "../services/index.js"
  *  Secret: 7eff1a591930fc3823944a2934e421ebdda6dba9
  */
 
-
+/*
 const LocalStrategy = local.Strategy
 
 const initializePassport = () => {
@@ -45,7 +49,7 @@ const initializePassport = () => {
                 const result = await userService.createUsers(newUser)
                 return done(null, result)
             } catch (e) {
-                return done('Error to register ' + error)
+                return done('Error to register ' + e)
             }
         }
     ))
@@ -177,5 +181,96 @@ const initializePassportGit = () => {
     })
 
 }
+*/
+
+import passport from "passport";
+import local from 'passport-local'
+import passportJWT from "passport-jwt";
+import UserModel from "../DAO/mongo/models/users.mongo.model.js"
+import GitHubStrategy from 'passport-github2'
+import { createHash, isValidPassword, extractCookie } from "../utils/utils.js";
+import { userService, cartService } from "../services/index.js"
+
+const LocalStrategy = local.Strategy
+const JWTStrategy = passportJWT.Strategy
+const JWTextract = passportJWT.ExtractJwt
+
+const initializePassport = () => {
+
+    passport.use(
+        'jwt',
+        new JWTStrategy(
+            {
+                jwtFromRequest: JWTextract.fromExtractors([extractCookie]),
+                secretOrKey: 'secretForJWT'
+            },
+            async (jwt_payload, done) => {
+                return done(null, jwt_payload)
+            }
+        )
+    )
+
+    passport.use('register', new LocalStrategy(
+        {
+            passReqToCallback: true,
+            usernameField: 'email'
+        },
+        async (req, username, password, done) => {
+            const { first_name, last_name, age, email } = req.body
+            try {
+                const user = await userService.getUserByEmail(username)
+                if (user) {
+                    return done(null, false)
+                }
+                const cart = await cartService.createCarts()
+                const newUser = {
+                    first_name,
+                    last_name,
+                    age,
+                    email,
+                    password: createHash(password),
+                    cartid: cart._id
+                }
+                const result = await userService.createUsers(newUser)
+                return done(null, result)
+            } catch (e) {
+                return done('Error to register ' + e)
+            }
+        }
+    ))
+
+    passport.use('login', new LocalStrategy(
+        { usernameField: 'email' },
+        async (username, password, done) => {
+            try {
+                const user = await userService.getUserByEmail(username)
+                if (!user) {
+                    console.error('User doesnt exist')
+                    return done(null, false)
+                }
+
+                if (!isValidPassword(user, password)) {
+                    console.error('Password not valid')
+                    return done(null, false)
+                }
+
+                return done(null, user)
+            } catch (e) {
+                return done('Error login ' + e)
+            }
+        }
+    ))
+
+    passport.serializeUser((user, done) => {
+        done(null, user._id)
+    })
+
+    passport.deserializeUser(async (id, done) => {
+        const user = await userService.getUserById(id)
+        done(null, user)
+    })
+
+}
+
 
 export default initializePassport

@@ -43,12 +43,24 @@ export const login = async (req, res) => {
 }
 
 export const logout = async (req, res) => {
-    const result = await userService.logout()
-    res.send({ status: 'success', payload: result })
+    //const result = await userService.logout()
+    res.clearCookie('coderCookie');
+    return res.status(200).send({ status: 'success', payload: 'Logout successful' })
 }
 
 export const register = async (req, res) => {
     //const result = await userService.createUsers()
-    const user = req.body
+    const user = req.user
     res.send({ status: 'success', payload:  user})
+}
+
+export const deleteUserById = async (req, res) => {
+    const uid = req.params.uid
+    const result = await userService.deleteUserById(uid)
+    res.send({ status: 'success', payload: result })
+}
+
+export const getCurrentUser = async (req, res) => {
+    const user = req.user
+    res.send({ status: 'success', payload: user })
 }

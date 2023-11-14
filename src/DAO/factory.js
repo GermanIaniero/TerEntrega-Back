@@ -16,6 +16,11 @@ switch (config.PERSISTENCE) {
             DBNAME: config.DBNAME
         })
 
+        .then(() => console.log('MongoDB connected'))
+        .catch((err) => console.log(`Error in MongoDB connection`, err))
+
+
+
         const { default: UserMongo } = await import('./mongo/users.mongo.js')
         const { default: OrderMongo } = await import('./mongo/orders.mongo.js')
         const { default: ProductMongo } = await import('./mongo/products.mongo.js')

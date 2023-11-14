@@ -14,4 +14,8 @@ export default class UserRepository {
         return await this.dao.createUsers(userToInsert)
         
     }
+    deleteUserById = async (uid) => {
+        const result = await this.dao.deleteUserById(uid)
+        return result
+    }
 }
