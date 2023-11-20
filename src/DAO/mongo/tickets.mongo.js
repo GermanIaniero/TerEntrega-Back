@@ -10,7 +10,7 @@ export default class Ticket {
     }
 
     
-    createTickets = async (totalamount) => { 
+    createTickets = async (totalamount, userMail) => { 
         const list = await this.getTicket()
         const options = { timeZone: 'America/Argentina/Buenos_Aires' };
         const argentinaDate  =new Date().toLocaleString('en-US', options);  
@@ -18,7 +18,8 @@ export default class Ticket {
         const ticket= {
             purchase_datetime : argentinaDate,
             code : this.getNextId(list),
-            amount: totalamount
+            amount: totalamount,
+            purcharser: userMail,
         }
             return await TicketModel.create(ticket)
     } 

@@ -25,15 +25,22 @@ export const createProducts = async (req, res) => {
 }
 
 export const updateProducts = async (req, res) => {
-    const { pid } = req.params
-    const product = req.body
-    const result = await productService.updateProducts(pid, product)
-
-    res.send({ status: 'success', payload: result })
+    try {
+        const pid = req.params.pid
+        const product = req.body
+        const result = await productService.updateProducts(pid, product)
+        res.send({ status: 'success', payload: result })
+    } catch (error) {
+        res.send({ status: 'error', payload: error.message })
+    }
 }
-export const deleteProducts = async (req, res) => {
-    const { pid } = req.params
-    const result = await productService.deleteProducts(pid)
 
-    res.send({ status: 'success', payload: result })
+export const deleteProducts = async (req, res) => {
+    try {
+        const { pid } = req.params
+        const result = await productService.deleteProducts(pid)
+        res.send({ status: 'success', payload: result })
+    } catch (error) {
+        res.send({ status: 'error', payload: error.message })
+    }
 }

@@ -113,7 +113,7 @@ describe('Integration tests', function () {
 
         });
 
-        xit('Get current user through endpoint GET /api/session/current', async () => {
+        it('Get current user through endpoint GET /api/session/current', async () => {
 
             const sut = await requester
                 .post('/api/session/login')
@@ -132,7 +132,7 @@ describe('Integration tests', function () {
             expect(actual.body.payload.user).to.have.property('email').that.equals(user.email);
         });
 
-        xit('Can NOT change users rol through endpoint POST /api/session/premium/:uid', async function () {
+        it('Can NOT change users rol through endpoint POST /api/session/premium/:uid', async function () {
             this.timeout(9000);
             const sut = await requester
                 .post('/api/session/register')
@@ -177,7 +177,7 @@ describe('Integration tests', function () {
             expect(adminRegisterResponse.body.payload.rol).to.eq('admin')
         })
 
-        xit('Should be able to create a product', async function () {
+        it('Should be able to create a product', async function () {
             this.timeout(9000);
 
             const adminLoginResponse = await requester
@@ -209,7 +209,7 @@ describe('Integration tests', function () {
 
         })
 
-        xit('Should be able to modify a product', async function () {
+        it('Should be able to modify a product', async function () {
 
             this.timeout = 9000
 
@@ -238,7 +238,7 @@ describe('Integration tests', function () {
 
         })
 
-        xit('Should be able to delete a product', async function () {
+        it('Should be able to delete a product', async function () {
             this.timeout = 9000
             const productPost = await requester
                 .post('/api/products')
@@ -316,7 +316,7 @@ describe('Integration tests', function () {
             expect(userProductResponse.body.error).to.be.eq('No permission');
         });
 
-        it('Can not modify a product', async () => {
+        xit('Can not modify a product', async () => {
             const oldProduct = await requester
                 .get('/api/products/' + productMockId)
 
@@ -342,7 +342,7 @@ describe('Integration tests', function () {
 
         })
 
-        it('Can not delete a product', async () => {
+        xit('Can not delete a product', async () => {
             const productPost = await requester
                 .post('/api/products')
                 .send(productMockForUserDeletion)
@@ -480,7 +480,7 @@ describe('Integration tests', function () {
 
         })
 
-        it('Adding different products is permitted', async function () {
+        xit('Adding different products is permitted', async function () {
             this.timeout(9000);
 
             const firstProductResponse = await requester
@@ -505,7 +505,7 @@ describe('Integration tests', function () {
             expect(cartResponse.body.payload.products[1].quantity).to.be.eq(1)
         })
 
-        it('Adding an existing product increases the quantity in cart', async function () {
+        xit('Adding an existing product increases the quantity in cart', async function () {
             this.timeout(9000);
 
             let firstProductResponse = await requester

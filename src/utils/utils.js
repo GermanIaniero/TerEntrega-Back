@@ -60,4 +60,13 @@ export const extractCookie = req => {
     return (req && req.cookies) ? req.cookies['coderCookie'] : null
 }
 
+export const authorization = rol => {
+    return async(req, res, next) => {
+        const user = req.user
+        if(!user) return res.status(401).send({error: 'Unauthorized'})
+        if(user.user.rol != rol) return res.status(403).send({error: 'No permission'})
+        return next()
+        }
+}
+
 export default __dirname
