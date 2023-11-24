@@ -38,38 +38,49 @@ export default class Cart {
   purchaseCarts = async (cart, userMail) => {
     let totalAmount = 0;
     for (let i = 0; i < cart.products.length; i++) {
-      const resultDelProducto = await ProductModel.findOne({
+    const resultDelProducto = await ProductModel.findOne({
         _id: cart.products[i].pid,
-      });
-      //Si el stock es mayor a la cantidad comprada
-      if (resultDelProducto.stock >= cart.products[i].quantity) {
-        resultDelProducto.stock =
-          resultDelProducto.stock - cart.products[i].quantity;
+    });
+    //Si el stock es mayor a la cantidad comprada
+    if (resultDelProducto.stock >= cart.products[i].quantity) {
+        resultDelProducto.stock = resultDelProducto.stock - cart.products[i].quantity;
         await resultDelProducto.save();
         totalAmount += resultDelProducto.price * cart.products[i].quantity;
-        await this.deleteOneCarts(cart._id, resultDelProducto._id);
-      } else {
-        cart.products[i].quantity =
-          cart.products[i].quantity - resultDelProducto.stock;
-        totalAmount += resultDelProducto.price * resultDelProducto.stock;
-        resultDelProducto.stock = 0;
-        await resultDelProducto.save();
-        await cart.save();
-      }
+        const productToDelete = { pid: resultDelProducto._id }
+        await this.deleteOneCarts(cart._id, productToDelete);
+    }
+    // 
+    /**
+     * Lo que pasa es que el deleteOneCarts funciona bien y elimina completamente
+     * un objeto del carrito. Pero, el [i] se mantiene en un valor mayo al total de productos,
+     * por lo que se comporta inesperadamente.
+     * 
+     * La solución es buscar cada producto dentro del arreglo, en vez de acceder a él mediante
+     * [i]. Podemos utilizar 'this.updateCarts' que se dedica a modificar la cantidad del producto.
+     * 
+     */
+    // } else {
+    //   cart.products[i].quantity = cart.products[i].quantity - resultDelProducto.stock;
+    //   totalAmount += resultDelProducto.price * resultDelProducto.stock;
+    //   resultDelProducto.stock = 0;
+    //   await resultDelProducto.save();
+    //   await cart.save();
+    // }
     }
     const ticket = new Ticket();
     const newTicket = await ticket.createTickets(totalAmount, userMail);
     return newTicket;
-  };
+};
 
-  deleteOneCarts = async (cartId, productId) => {
+deleteOneCarts = async (cartId, productId) => {
     const result = await CartModel.updateOne(
-      { _id: cartId },
-      { $pull: { products: { pid: productId.pid } } }
+    { _id: cartId },
+    { $pull: { products: { pid: productId.pid } } },
+    { new: true }
     );
-    // console.log(result);
+    console.log('result from deleteOneCars', result)
     return result;
-  };
+};  
 
   deleteProductAll = async (id) => {
     const result = await CartModel.updateOne(

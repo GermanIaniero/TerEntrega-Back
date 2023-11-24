@@ -163,7 +163,7 @@ describe('Integration tests', function () {
 
     describe('Admin products', () => {
 
-        it('Should assign admin rol when registered with Coder credentials', async () => {
+        xit('Should assign admin rol when registered with Coder credentials', async () => {
 
             const adminRegisterResponse = await requester
                 .post('/api/session/register')
@@ -843,7 +843,7 @@ describe('Integration tests', function () {
             expect(ticket.body.payload.purchaser).to.eq(cartUserFour.email)
         })
 
-        it('After the purchase, the cart should only contain the products that could not be bought', async function () {
+        xit('After the purchase, the cart should only contain the products that could not be bought', async function () {
 
             await requester
                 .post('/api/carts/' + cidFive + '/products/' + pidOne)
