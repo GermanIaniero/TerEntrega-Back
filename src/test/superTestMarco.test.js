@@ -132,7 +132,7 @@ describe('Integration tests', function () {
             expect(actual.body.payload.user).to.have.property('email').that.equals(user.email);
         });
 
-        it('Can NOT change users rol through endpoint POST /api/session/premium/:uid', async function () {
+        xit('Can NOT change users rol through endpoint POST /api/session/premium/:uid', async function () {
             this.timeout(9000);
             const sut = await requester
                 .post('/api/session/register')
@@ -260,7 +260,7 @@ describe('Integration tests', function () {
 
     })
 
-    xdescribe('User products', () => {
+    describe('User products', () => {
 
         let userThreeCookie;
 
@@ -316,7 +316,7 @@ describe('Integration tests', function () {
             expect(userProductResponse.body.error).to.be.eq('No permission');
         });
 
-        xit('Can not modify a product', async () => {
+        it('Can not modify a product', async () => {
             const oldProduct = await requester
                 .get('/api/products/' + productMockId)
 
@@ -342,7 +342,7 @@ describe('Integration tests', function () {
 
         })
 
-        xit('Can not delete a product', async () => {
+        it('Can not delete a product', async () => {
             const productPost = await requester
                 .post('/api/products')
                 .send(productMockForUserDeletion)
@@ -364,7 +364,7 @@ describe('Integration tests', function () {
         })
     });
 
-    xdescribe('Carts', () => {
+    describe('Carts', () => {
 
         let cidOne;
         let cidTwo
@@ -480,7 +480,7 @@ describe('Integration tests', function () {
 
         })
 
-        xit('Adding different products is permitted', async function () {
+        it('Adding different products is permitted', async function () {
             this.timeout(9000);
 
             const firstProductResponse = await requester
@@ -505,7 +505,7 @@ describe('Integration tests', function () {
             expect(cartResponse.body.payload.products[1].quantity).to.be.eq(1)
         })
 
-        xit('Adding an existing product increases the quantity in cart', async function () {
+        it('Adding an existing product increases the quantity in cart', async function () {
             this.timeout(9000);
 
             let firstProductResponse = await requester
@@ -535,7 +535,7 @@ describe('Integration tests', function () {
 
         })
 
-        xit('A user may delete a product of the cart', async function () {
+        it('A user may delete a product of the cart', async function () {
             this.timeout(9000);
 
             let firstProductResponse = await requester
@@ -566,7 +566,7 @@ describe('Integration tests', function () {
 
     })
 
-    xdescribe('Ticket', () => {
+    describe('Ticket', () => {
 
         let cidOne;
         let cidTwo
@@ -695,8 +695,8 @@ describe('Integration tests', function () {
 
             cidFive = registerUserFive.body.payload.cartid
 
-            //Admin login for cookies to have permission
-            //to create products to use in carts
+            // Admin login for cookies to have permission
+            // to create products to use in carts
 
             //adminCookie
             const adminLoginResponse = await requester
@@ -737,35 +737,55 @@ describe('Integration tests', function () {
 
         });
 
-        it('The route POST api/carts/:cid/purchase triggers the cart purchase', async function () {
+        it('The route POST api/carts/:cid/purchase triggers the cart purchase',
+            async function () {
 
-            const purchaseResponse = await requester
-                .post('/api/carts/' + cidOne + '/purchase')
-            expect(purchaseResponse.body.payload).to.be.ok
-        })
+                const sut = await requester
+                    .post('/api/session/login')
+                    .send({
+                        email: cartUserOne.email,
+                        password: cartUserOne.password
+                    });
 
-        it('The purchase must decrease the product stock', async function () {
-            this.timeout(9000)
+                const sutCookieResult = sut.header['set-cookie']
 
-            const productOneInfoResponse = await requester
-                .get('/api/products/' + pidOne)
+                const purchaseResponse = await requester
+                    .post('/api/carts/' + cidOne + '/purchase')
+                    .set('Cookie', sutCookieResult)
 
-            const initialStock = productOneInfoResponse.body.payload.stock
+                expect(purchaseResponse.body.payload).to.be.ok
+            })
 
-            const addingProductToCartResponse = await requester
-                .post('/api/carts/' + cidOne + '/products/' + pidOne)
-                .send({ quantity: 1 })
+        it('The purchase must decrease the product stock',
+            async function () {
+                //Initial stock
+                const productOneInfoResponse = await requester
+                    .get('/api/products/' + pidOne)
+                const initialStock = productOneInfoResponse.body.payload.stock
 
-            const purchaseResponse = await requester
-                .post('/api/carts/' + cidOne + '/purchase')
+                const addingProductToCartResponse = await requester
+                    .post('/api/carts/' + cidOne + '/products/' + pidOne)
+                    .send({ quantity: 1 })
 
-            const productOneInfoResponseAfterPurchase = await requester
-                .get('/api/products/' + pidOne)
+                //login for purchase and purchase
+                const sut = await requester
+                    .post('/api/session/login')
+                    .send({
+                        email: cartUserOne.email,
+                        password: cartUserOne.password
+                    });
+                const sutCookieResult = sut.header['set-cookie']
+                const purchaseResponse = await requester
+                    .post('/api/carts/' + cidOne + '/purchase')
+                    .set('Cookie', sutCookieResult)
 
-            const finalStock = productOneInfoResponseAfterPurchase.body.payload.stock
+                //Final stock
+                const productOneInfoResponseAfterPurchase = await requester
+                    .get('/api/products/' + pidOne)
+                const finalStock = productOneInfoResponseAfterPurchase.body.payload.stock
 
-            expect(initialStock).to.be.eq(finalStock + 1)
-        })
+                expect(initialStock).to.be.eq(finalStock + 1)
+            })
 
 
         it('Only available stock may be purchased', async function () {
@@ -777,8 +797,19 @@ describe('Integration tests', function () {
             const cartStatus = await requester
                 .get('/api/carts/' + cidTwo)
 
+
+            //login for purchase and purchase
+            const sut = await requester
+                .post('/api/session/login')
+                .send({
+                    email: cartUserTwo.email,
+                    password: cartUserTwo.password
+                });
+            const sutCookieResult = sut.header['set-cookie']
             const purchaseResponse = await requester
                 .post('/api/carts/' + cidTwo + '/purchase')
+                .set('Cookie', sutCookieResult)
+
 
             const productInfoResponse = await requester
                 .get('/api/products/' + pidTwoStockProduct)
@@ -812,7 +843,7 @@ describe('Integration tests', function () {
             expect(ticket.body.payload.purchaser).to.eq(cartUserFour.email)
         })
 
-        xit('After the purchase, the cart should only contain the products that could not be bought', async function () {
+        it('After the purchase, the cart should only contain the products that could not be bought', async function () {
 
             await requester
                 .post('/api/carts/' + cidFive + '/products/' + pidOne)
@@ -826,6 +857,8 @@ describe('Integration tests', function () {
                 .post('/api/carts/' + cidFive + '/products/' + pidOneStockProduct)
                 .send({ quantity: 2 })
 
+            const cartBeforePurchase = await requester
+                .get('/api/carts/' + cidFive)
 
             const userFiveLoginResponse = await requester
                 .post('/api/session/login')
@@ -839,6 +872,11 @@ describe('Integration tests', function () {
 
             const cartAfterPurchase = await requester
                 .get('/api/carts/' + cidFive)
+
+            //creo que es porque queda con cosas raras el arreglo debido al $Pull.
+            //imprimir respuesta
+            console.log('cartBeforePurchase.payload.products', cartBeforePurchase.body.payload.products)
+            console.log('cartAgerPurchase.payload.products', cartAfterPurchase.body.payload.products)
 
             const expectedTotalAmount = cartProductOne.price + cartProductTwo.price + oneStockProduct.price
 

@@ -65,7 +65,7 @@ export default class Cart {
   deleteOneCarts = async (cartId, productId) => {
     const result = await CartModel.updateOne(
       { _id: cartId },
-      { $pull: { products: { pid: productId } } }
+      { $pull: { products: { pid: productId.pid } } }
     );
     // console.log(result);
     return result;

@@ -19,7 +19,7 @@ export default class Ticket {
             purchase_datetime : argentinaDate,
             code : this.getNextId(list),
             amount: totalamount,
-            purcharser: userMail,
+            purchaser: userMail,
         }
             return await TicketModel.create(ticket)
     } 
