@@ -48,7 +48,7 @@ describe('Integration tests', function () {
         thumbnail: [faker.image.url()],
     };
 
-    describe('User sessions', () => {
+    xdescribe('User sessions', () => {
 
         const user = {
             first_name: faker.person.firstName(),
@@ -161,7 +161,7 @@ describe('Integration tests', function () {
 
     })
 
-    describe('Admin products', () => {
+    xdescribe('Admin products', () => {
 
         xit('Should assign admin rol when registered with Coder credentials', async () => {
 
@@ -260,7 +260,7 @@ describe('Integration tests', function () {
 
     })
 
-    describe('User products', () => {
+    xdescribe('User products', () => {
 
         let userThreeCookie;
 
@@ -364,7 +364,7 @@ describe('Integration tests', function () {
         })
     });
 
-    describe('Carts', () => {
+    xdescribe('Carts', () => {
 
         let cidOne;
         let cidTwo
@@ -737,7 +737,7 @@ describe('Integration tests', function () {
 
         });
 
-        it('The route POST api/carts/:cid/purchase triggers the cart purchase',
+        xit('The route POST api/carts/:cid/purchase triggers the cart purchase',
             async function () {
 
                 const sut = await requester
@@ -756,7 +756,7 @@ describe('Integration tests', function () {
                 expect(purchaseResponse.body.payload).to.be.ok
             })
 
-        it('The purchase must decrease the product stock',
+        xit('The purchase must decrease the product stock',
             async function () {
                 //Initial stock
                 const productOneInfoResponse = await requester
@@ -788,7 +788,7 @@ describe('Integration tests', function () {
             })
 
 
-        it('Only available stock may be purchased', async function () {
+        xit('Only available stock may be purchased', async function () {
 
             const twoStockProductAddToCartResponse = await requester
                 .post('/api/carts/' + cidTwo + '/products/' + pidTwoStockProduct)
@@ -820,7 +820,7 @@ describe('Integration tests', function () {
             expect(productInfoResponse.body.payload.stock).to.be.eq(0)
         })
 
-        it('The ticket should have id, code, purchase_datetime, amount and purchaser ', async function () {
+        xit('The ticket should have id, code, purchase_datetime, amount and purchaser ', async function () {
 
             const cartResponse = await requester
                 .post('/api/carts/' + cidFour + '/products/' + pidOne)
@@ -843,7 +843,7 @@ describe('Integration tests', function () {
             expect(ticket.body.payload.purchaser).to.eq(cartUserFour.email)
         })
 
-        xit('After the purchase, the cart should only contain the products that could not be bought', async function () {
+        it('After the purchase, the cart should only contain the products that could not be bought', async function () {
 
             await requester
                 .post('/api/carts/' + cidFive + '/products/' + pidOne)

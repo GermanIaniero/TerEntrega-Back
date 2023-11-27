@@ -26,10 +26,11 @@ export default class Cart {
     if (resultadoEncontrado !== undefined) {
       resultadoEncontrado.quantity += product.quantity;
       await resultDelCarrito.save();
-    } else {
-      resultDelCarrito.products.push(product);
-      await resultDelCarrito.save();
-    }
+    } 
+    //else {
+      //resultDelCarrito.products.push(product);
+      //await resultDelCarrito.save();
+    //}
     //resultDelCarrito.products.push({pid,quantity} )
 
     return resultDelCarrito;
@@ -41,14 +42,16 @@ export default class Cart {
     const resultDelProducto = await ProductModel.findOne({
         _id: cart.products[i].pid,
     });
+    console.log("purchase", resultDelProducto)
     //Si el stock es mayor a la cantidad comprada
     if (resultDelProducto.stock >= cart.products[i].quantity) {
         resultDelProducto.stock = resultDelProducto.stock - cart.products[i].quantity;
+        console.log("purchase2", resultDelProducto)
         await resultDelProducto.save();
         totalAmount += resultDelProducto.price * cart.products[i].quantity;
         const productToDelete = { pid: resultDelProducto._id }
         await this.deleteOneCarts(cart._id, productToDelete);
-    }
+    
     // 
     /**
      * Lo que pasa es que el deleteOneCarts funciona bien y elimina completamente
@@ -59,13 +62,18 @@ export default class Cart {
      * [i]. Podemos utilizar 'this.updateCarts' que se dedica a modificar la cantidad del producto.
      * 
      */
-    // } else {
-    //   cart.products[i].quantity = cart.products[i].quantity - resultDelProducto.stock;
-    //   totalAmount += resultDelProducto.price * resultDelProducto.stock;
-    //   resultDelProducto.stock = 0;
-    //   await resultDelProducto.save();
-    //   await cart.save();
-    // }
+     } else {
+     // cart.products[i].quantity = cart.products[i].quantity - resultDelProducto.stock;
+     const productForUpdate = {
+      pid: resultDelProducto._id,
+      quantity: resultDelProducto.stock * -1
+    }
+       totalAmount += resultDelProducto.price * resultDelProducto.stock;
+      resultDelProducto.stock = 0;
+      await resultDelProducto.save();
+      
+      await this.updateCarts (cart._id, productForUpdate)
+     }
     }
     const ticket = new Ticket();
     const newTicket = await ticket.createTickets(totalAmount, userMail);
