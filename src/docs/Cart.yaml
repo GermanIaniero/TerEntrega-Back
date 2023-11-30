@@ -25,7 +25,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#components/requestBodies/createCarts'    
+                $ref: '#components/requestBodies/getCarts'    
    
     /api/carts/{cid}:
       get:
