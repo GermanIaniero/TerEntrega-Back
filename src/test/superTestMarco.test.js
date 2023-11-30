@@ -48,7 +48,7 @@ describe('Integration tests', function () {
         thumbnail: [faker.image.url()],
     };
 
-    xdescribe('User sessions', () => {
+    describe('User sessions', () => {
 
         const user = {
             first_name: faker.person.firstName(),
@@ -132,7 +132,7 @@ describe('Integration tests', function () {
             expect(actual.body.payload.user).to.have.property('email').that.equals(user.email);
         });
 
-        xit('Can NOT change users rol through endpoint POST /api/session/premium/:uid', async function () {
+        it('Can NOT change users rol through endpoint POST /api/session/premium/:uid', async function () {
             this.timeout(9000);
             const sut = await requester
                 .post('/api/session/register')
@@ -161,9 +161,9 @@ describe('Integration tests', function () {
 
     })
 
-    xdescribe('Admin products', () => {
+    describe('Admin products', () => {
 
-        xit('Should assign admin rol when registered with Coder credentials', async () => {
+        it('Should assign admin rol when registered with Coder credentials', async () => {
 
             const adminRegisterResponse = await requester
                 .post('/api/session/register')
@@ -260,7 +260,7 @@ describe('Integration tests', function () {
 
     })
 
-    xdescribe('User products', () => {
+    describe('User products', () => {
 
         let userThreeCookie;
 
@@ -364,7 +364,7 @@ describe('Integration tests', function () {
         })
     });
 
-    xdescribe('Carts', () => {
+    describe('Carts', () => {
 
         let cidOne;
         let cidTwo
@@ -638,7 +638,7 @@ describe('Integration tests', function () {
 
         const twoStockProduct = {
             title: faker.commerce.productName(),
-            description: "Initial two stock, price 10",
+            description: "Initial two stock, price 22",
             price: 22,
             category: faker.commerce.department(),
             stock: 2,
@@ -655,7 +655,7 @@ describe('Integration tests', function () {
         };
 
         before(async function () {
-            this.timeout(9000);
+            this.timeout(900000);
             //Register users to get carts Ids to use.
 
             //cidOne
@@ -737,7 +737,7 @@ describe('Integration tests', function () {
 
         });
 
-        xit('The route POST api/carts/:cid/purchase triggers the cart purchase',
+        it('The route POST api/carts/:cid/purchase triggers the cart purchase',
             async function () {
 
                 const sut = await requester
@@ -756,7 +756,7 @@ describe('Integration tests', function () {
                 expect(purchaseResponse.body.payload).to.be.ok
             })
 
-        xit('The purchase must decrease the product stock',
+        it('The purchase must decrease the product stock',
             async function () {
                 //Initial stock
                 const productOneInfoResponse = await requester
@@ -788,7 +788,7 @@ describe('Integration tests', function () {
             })
 
 
-        xit('Only available stock may be purchased', async function () {
+        it('Only available stock may be purchased', async function () {
 
             const twoStockProductAddToCartResponse = await requester
                 .post('/api/carts/' + cidTwo + '/products/' + pidTwoStockProduct)
@@ -820,7 +820,7 @@ describe('Integration tests', function () {
             expect(productInfoResponse.body.payload.stock).to.be.eq(0)
         })
 
-        xit('The ticket should have id, code, purchase_datetime, amount and purchaser ', async function () {
+        it('The ticket should have id, code, purchase_datetime, amount and purchaser ', async function () {
 
             const cartResponse = await requester
                 .post('/api/carts/' + cidFour + '/products/' + pidOne)
@@ -875,15 +875,12 @@ describe('Integration tests', function () {
 
             //creo que es porque queda con cosas raras el arreglo debido al $Pull.
             //imprimir respuesta
-            console.log('cartBeforePurchase.payload.products', cartBeforePurchase.body.payload.products)
-            console.log('cartAgerPurchase.payload.products', cartAfterPurchase.body.payload.products)
-
+           
             const expectedTotalAmount = cartProductOne.price + cartProductTwo.price + oneStockProduct.price
 
             expect(ticket.body.payload.amount).to.eq(expectedTotalAmount)
             expect(cartAfterPurchase.body.payload.products.length).to.be.eq(1)
-            expect(cartAfterPurchase.body.payload.products[0].pid).to.be.eq(oneStockProduct._id)
-
+            expect(cartAfterPurchase.body.payload.products[0].pid).to.be.eq(pidOneStockProduct)
         })
 
     });

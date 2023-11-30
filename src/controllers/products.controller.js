@@ -6,7 +6,7 @@ export const getProducts = async (req, res) => {
 }
 
 export const getProductByID = async (req, res) => {
-    const { pid } = req.params
+    const  pid  = req.params.pid
     const result = await productService.getProductById(pid)
 
     res.send({ status: 'success', payload: result })

@@ -25,8 +25,8 @@ export const updateCarts = async (req, res) => {
     const pid = req.params.pid;
     const cid = req.params.cid;
     const quantity = parseInt(req.body.quantity);
-    const carts2 = { pid, quantity };
-    const result = await cartService.updateCarts(cid, carts2);
+    const product = { pid, quantity };
+    const result = await cartService.updateCarts(cid, product);
     res.send({ status: "success", payload: result });
   } catch (error) {
     res.send({ status: "error", payload: error.message });
@@ -38,7 +38,6 @@ export const purchaseCarts = async (req, res) => {
     const userMail = req.user.user.email
     const cid = req.params.cid;
     const result = await cartService.purchaseCarts(cid, userMail);
-    console.log('result', result)
     res.send({ status: "success", payload: result });
   } catch (error) {
     res.send({ status: "error", payload: error.message });
